@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noori Cyber Cafe & Noori Perfume – Smart Shop Manager</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/modules.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash-screen">
+  <div class="splash-inner">
+    <div class="splash-logo-ring">
+      <div class="splash-logo-icon">
+        <i class="fas fa-store-alt"></i>
+      </div>
+      <div class="ring ring1"></div>
+      <div class="ring ring2"></div>
+      <div class="ring ring3"></div>
+    </div>
+    <div class="splash-title">نوری</div>
+    <div class="splash-subtitle">Noori Cyber Cafe &amp; Noori Perfume</div>
+    <div class="splash-tagline">Your Smart Business Manager</div>
+    <div class="splash-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SIDEBAR NAV ===== -->
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-mark anim-logo">
+      <i class="fas fa-store-alt"></i>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">نوری <span style="font-family:'Inter'">Noori</span></span>
+      <span class="logo-tagline">Cyber Cafe &amp; Perfume</span>
+    </div>
+    <button id="sidebar-toggle" title="Toggle sidebar"><i class="fas fa-bars"></i></button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN</div>
+    <a href="#" class="nav-item active" data-page="dashboard">
+      <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" data-page="pos">
+      <i class="fas fa-cash-register"></i><span>POS / Billing</span>
+    </a>
+
+    <div class="nav-section-label">INVENTORY</div>
+    <a href="#" class="nav-item" data-page="inventory">
+      <i class="fas fa-boxes"></i><span>Inventory</span>
+    </a>
+    <a href="#" class="nav-item" data-page="perfume-creator">
+      <i class="fas fa-flask"></i><span>Perfume Creator</span>
+    </a>
+
+    <div class="nav-section-label">PURCHASES</div>
+    <a href="#" class="nav-item" data-page="purchases">
+      <i class="fas fa-truck"></i><span>Purchases</span>
+    </a>
+    <a href="#" class="nav-item" data-page="suppliers">
+      <i class="fas fa-handshake"></i><span>Suppliers</span>
+    </a>
+
+    <div class="nav-section-label">CUSTOMERS</div>
+    <a href="#" class="nav-item" data-page="customers">
+      <i class="fas fa-users"></i><span>Customers</span>
+    </a>
+    <a href="#" class="nav-item" data-page="khata">
+      <i class="fas fa-book"></i><span>Khata Ledger</span>
+    </a>
+
+    <div class="nav-section-label">SERVICES</div>
+    <a href="#" class="nav-item" data-page="recharge">
+      <i class="fas fa-mobile-alt"></i><span>Mobile Recharge</span>
+    </a>
+    <a href="#" class="nav-item" data-page="banking">
+      <i class="fas fa-university"></i><span>Airtel Payment Bank</span>
+    </a>
+
+    <div class="nav-section-label">TOOLS</div>
+    <a href="#" class="nav-item" data-page="expenses">
+      <i class="fas fa-wallet"></i><span>Daily Expenses</span>
+    </a>
+    <a href="#" class="nav-item" data-page="notes">
+      <i class="fas fa-sticky-note"></i><span>Quick Notes</span>
+    </a>
+
+    <div class="nav-section-label">REPORTS</div>
+    <a href="#" class="nav-item" data-page="sales-history">
+      <i class="fas fa-receipt"></i><span>Sales History</span>
+    </a>
+    <a href="#" class="nav-item" data-page="analytics">
+      <i class="fas fa-chart-line"></i><span>Analytics</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-shop-name">🕌 Noori Shop</div>
+    <span id="clock"></span>
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main id="main-content">
+
+  <!-- TOP BAR -->
+  <header id="topbar">
+    <div class="topbar-left">
+      <button id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+      <h1 id="page-title">Dashboard</h1>
+    </div>
+    <div class="topbar-right">
+      <div id="low-stock-bell" class="bell-wrapper anim-bell" title="Low Stock Alerts">
+        <i class="fas fa-bell"></i>
+        <span class="bell-badge" id="alert-count" style="display:none">0</span>
+      </div>
+      <div class="shop-badge noori-badge">
+        <span class="noori-dot"></span>
+        <span>Noori Cyber &amp; Perfume</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOW STOCK ALERT PANEL -->
+  <div id="alert-panel" class="alert-panel hidden">
+    <div class="alert-panel-header">
+      <strong><i class="fas fa-exclamation-triangle"></i> Low Stock Alerts</strong>
+      <button onclick="document.getElementById('alert-panel').classList.add('hidden')"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="alert-list"></div>
+  </div>
+
+  <!-- PAGES -->
+  <div id="pages">
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section id="page-dashboard" class="page active">
+
+      <!-- Welcome Banner -->
+      <div class="noori-welcome-banner anim-slide-down">
+        <div class="welcome-left">
+          <div class="welcome-arabic">بِسْمِ اللهِ</div>
+          <h2 class="welcome-title">Welcome to <span class="noori-gradient-text">Noori</span> Shop Manager</h2>
+          <p class="welcome-sub">Noori Cyber Cafe &amp; Noori Perfume — All in one place</p>
+        </div>
+        <div class="welcome-right">
+          <div class="welcome-icon-group">
+            <div class="welcome-icon-bubble anim-float" style="--delay:0s"><i class="fas fa-flask"></i></div>
+            <div class="welcome-icon-bubble anim-float" style="--delay:0.3s"><i class="fas fa-print"></i></div>
+            <div class="welcome-icon-bubble anim-float" style="--delay:0.6s"><i class="fas fa-mobile-alt"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card accent-green anim-card" style="--i:0">
+          <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Today's Sales</span>
+            <span class="stat-value" id="stat-today-sales">₹0</span>
+          </div>
+        </div>
+        <div class="stat-card accent-blue anim-card" style="--i:1">
+          <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Orders This Month</span>
+            <span class="stat-value" id="stat-month-orders">0</span>
+          </div>
+        </div>
+        <div class="stat-card accent-purple anim-card" style="--i:2">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Total Customers</span>
+            <span class="stat-value" id="stat-customers">0</span>
+          </div>
+        </div>
+        <div class="stat-card accent-orange anim-card" style="--i:3">
+          <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Low Stock Items</span>
+            <span class="stat-value" id="stat-low-stock">0</span>
+          </div>
+        </div>
+        <div class="stat-card accent-red anim-card" style="--i:4">
+          <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Pending Khata</span>
+            <span class="stat-value" id="stat-khata">₹0</span>
+          </div>
+        </div>
+        <div class="stat-card accent-teal anim-card" style="--i:5">
+          <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Month Revenue</span>
+            <span class="stat-value" id="stat-month-revenue">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card chart-card anim-fade-up" style="--i:0">
+          <div class="card-header"><h3><i class="fas fa-chart-bar"></i> Sales – Last 7 Days</h3></div>
+          <div style="height:260px;"><canvas id="salesChart"></canvas></div>
+        </div>
+        <div class="card chart-card anim-fade-up" style="--i:1">
+          <div class="card-header"><h3><i class="fas fa-chart-pie"></i> Revenue by Category</h3></div>
+          <div style="height:260px;"><canvas id="categoryChart"></canvas></div>
+        </div>
+        <div class="card anim-fade-up" style="--i:2">
+          <div class="card-header">
+            <h3><i class="fas fa-fire"></i> Top Selling Items</h3>
+            <a href="#" class="link-sm" data-page="analytics">Full Report →</a>
+          </div>
+          <div id="top-items-list" class="list-plain">
+            <p class="empty-msg">No sales data yet</p>
+          </div>
+        </div>
+        <div class="card anim-fade-up" style="--i:3">
+          <div class="card-header">
+            <h3><i class="fas fa-exclamation-triangle"></i> Low Stock Alerts</h3>
+            <a href="#" class="link-sm" data-page="inventory">Manage →</a>
+          </div>
+          <div id="dashboard-low-stock" class="list-plain">
+            <p class="empty-msg">All items well stocked 👍</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="quick-actions anim-fade-up" style="--i:4">
+        <div class="quick-action-title"><i class="fas fa-bolt"></i> Quick Actions</div>
+        <div class="quick-action-grid">
+          <button class="quick-btn" data-page="pos"><i class="fas fa-cash-register"></i><span>New Sale</span></button>
+          <button class="quick-btn" data-page="recharge"><i class="fas fa-mobile-alt"></i><span>Recharge</span></button>
+          <button class="quick-btn" data-page="banking"><i class="fas fa-university"></i><span>Banking</span></button>
+          <button class="quick-btn" data-page="inventory"><i class="fas fa-plus-circle"></i><span>Add Stock</span></button>
+          <button class="quick-btn" data-page="customers"><i class="fas fa-user-plus"></i><span>Customers</span></button>
+          <button class="quick-btn" data-page="perfume-creator"><i class="fas fa-flask"></i><span>New Recipe</span></button>
+          <button class="quick-btn" data-page="expenses"><i class="fas fa-wallet"></i><span>Log Expense</span></button>
+          <button class="quick-btn" data-page="notes"><i class="fas fa-sticky-note"></i><span>Quick Note</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== POS / BILLING ===================== -->
+    <section id="page-pos" class="page">
+      <div class="pos-layout">
+        <div class="pos-left">
+          <div class="pos-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="pos-search" placeholder="Search by name or scan barcode…" autocomplete="off" />
+          </div>
+          <div class="pos-filter-tabs">
+            <button class="filter-tab active" data-cat="all">All</button>
+            <button class="filter-tab" data-cat="attar_bulk">Attar Bulk</button>
+            <button class="filter-tab" data-cat="attar_variant">Attar Variants</button>
+            <button class="filter-tab" data-cat="mobile_accessory">Mobile</button>
+            <button class="filter-tab" data-cat="cyber_service">Cyber</button>
+            <button class="filter-tab" data-cat="other">Other</button>
+          </div>
+          <div id="pos-product-grid" class="pos-product-grid">
+            <p class="empty-msg">Loading products…</p>
+          </div>
+        </div>
+
+        <div class="pos-right">
+          <div class="pos-customer-row">
+            <i class="fas fa-user-circle"></i>
+            <input type="text" id="pos-customer-search" placeholder="Customer name / phone (optional)" autocomplete="off" />
+            <div id="pos-customer-dropdown" class="dropdown-list hidden"></div>
+            <button class="btn-icon" id="pos-clear-customer" title="Clear customer"><i class="fas fa-times"></i></button>
+          </div>
+          <div id="pos-customer-badge" class="customer-badge hidden">
+            <span id="pos-customer-name-badge"></span>
+            <span class="badge-points" id="pos-customer-points-badge"></span>
+          </div>
+          <div class="cart-header">
+            <span>🛒 CART</span>
+            <button class="btn-sm btn-ghost" id="clear-cart"><i class="fas fa-trash"></i> Clear</button>
+          </div>
+          <div id="cart-items" class="cart-items">
+            <p class="empty-msg" id="cart-empty-msg">Cart is empty. Add products.</p>
+          </div>
+          <div class="cart-totals">
+            <div class="total-row"><span>Subtotal</span><span id="cart-subtotal">₹0.00</span></div>
+            <div class="total-row">
+              <span>Discount (₹)</span>
+              <input type="number" id="cart-discount" value="0" min="0" class="discount-input" />
+            </div>
+            <div class="total-row total-final">
+              <span>TOTAL</span><span id="cart-total">₹0.00</span>
+            </div>
+          </div>
+          <div class="payment-section">
+            <div class="payment-methods">
+              <label class="pay-method"><input type="radio" name="pay-method" value="cash" checked /> Cash</label>
+              <label class="pay-method"><input type="radio" name="pay-method" value="upi" /> UPI</label>
+              <label class="pay-method"><input type="radio" name="pay-method" value="card" /> Card</label>
+              <label class="pay-method"><input type="radio" name="pay-method" value="khata" /> Khata</label>
+            </div>
+            <div class="loyalty-row" id="loyalty-row" style="display:none">
+              <label>Redeem Points <small id="available-points">(0 pts)</small></label>
+              <input type="number" id="redeem-points" value="0" min="0" class="discount-input" />
+            </div>
+            <button id="btn-checkout" class="btn-primary btn-lg btn-block anim-pulse-btn">
+              <i class="fas fa-check-circle"></i> Complete Sale
+            </button>
+            <div class="receipt-options">
+              <span>Send receipt via:</span>
+              <label><input type="checkbox" id="send-whatsapp" /> <i class="fab fa-whatsapp"></i> WhatsApp</label>
+              <label><input type="checkbox" id="send-email" /> <i class="fas fa-envelope"></i> Email</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== INVENTORY ===================== -->
+    <section id="page-inventory" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="inv-search" placeholder="Search inventory…" class="search-input" />
+          <select id="inv-filter-cat" class="select-input">
+            <option value="">All Categories</option>
+            <option value="attar_bulk">Attar Bulk</option>
+            <option value="attar_variant">Attar Variant</option>
+            <option value="mobile_accessory">Mobile Accessory</option>
+            <option value="cyber_service">Cyber Service</option>
+            <option value="bottle">Bottle</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button class="btn-primary" id="btn-add-inventory"><i class="fas fa-plus"></i> Add Item</button>
+      </div>
+      <div id="inventory-table-wrap" class="table-wrap">
+        <table class="data-table" id="inventory-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Category</th><th>SKU</th><th>Stock</th><th>Unit</th>
+              <th>Cost</th><th>Sell Price</th><th>Low Alert</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventory-tbody">
+            <tr><td colspan="10" class="empty-msg">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== PERFUME CREATOR ===================== -->
+    <section id="page-perfume-creator" class="page">
+      <div class="perfume-layout">
+        <div class="card perfume-form-card">
+          <div class="card-header"><h3><i class="fas fa-flask"></i> Create / Save Blend Recipe</h3></div>
+          <div class="form-body">
+            <div class="form-row">
+              <label>Recipe Name</label>
+              <input type="text" id="recipe-name" class="form-input" placeholder="e.g. Noori Signature Blend" />
+            </div>
+            <div class="form-row">
+              <label>Customer (optional)</label>
+              <input type="text" id="recipe-customer-search" class="form-input" placeholder="Search customer…" autocomplete="off" />
+              <input type="hidden" id="recipe-customer-id" />
+            </div>
+            <div class="form-row">
+              <label>Total Volume (ml)</label>
+              <input type="number" id="recipe-volume" class="form-input" placeholder="e.g. 50" />
+            </div>
+            <div class="ingredients-section">
+              <div class="ingredients-header">
+                <span>Ingredients</span>
+                <button class="btn-sm btn-secondary" id="btn-add-ingredient"><i class="fas fa-plus"></i> Add</button>
+              </div>
+              <div id="ingredients-list"></div>
+              <div class="blend-total-bar">
+                <span>Total blend: <strong id="blend-percent-total">0%</strong></span>
+                <div class="blend-bar-wrap"><div id="blend-bar" class="blend-bar"></div></div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>Notes</label>
+              <textarea id="recipe-notes" class="form-input" rows="2" placeholder="Customer preferences…"></textarea>
+            </div>
+            <div class="form-row">
+              <label><input type="checkbox" id="recipe-fav" /> Mark as Favourite ⭐</label>
+            </div>
+            <button class="btn-primary btn-block" id="btn-save-recipe"><i class="fas fa-save"></i> Save Recipe</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-book-open"></i> Saved Recipes</h3>
+            <input type="text" id="recipe-search" class="search-input-sm" placeholder="Search…" />
+          </div>
+          <div id="recipes-list" class="recipes-list">
+            <p class="empty-msg">No recipes saved yet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PURCHASES ===================== -->
+    <section id="page-purchases" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="pur-search" placeholder="Search purchases…" class="search-input" />
+        </div>
+        <button class="btn-primary" id="btn-add-purchase"><i class="fas fa-plus"></i> New Purchase</button>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Invoice</th><th>Date</th><th>Supplier</th><th>Items</th><th>Total</th><th>Paid</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="purchases-tbody">
+            <tr><td colspan="8" class="empty-msg">No purchases logged yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== SUPPLIERS ===================== -->
+    <section id="page-suppliers" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="sup-search" placeholder="Search suppliers…" class="search-input" />
+        </div>
+        <button class="btn-primary" id="btn-add-supplier"><i class="fas fa-plus"></i> Add Supplier</button>
+      </div>
+      <div id="suppliers-grid" class="suppliers-grid">
+        <p class="empty-msg">No suppliers added yet.</p>
+      </div>
+    </section>
+
+    <!-- ===================== CUSTOMERS ===================== -->
+    <section id="page-customers" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="cust-search" placeholder="Search customers…" class="search-input" />
+        </div>
+        <button class="btn-primary" id="btn-add-customer"><i class="fas fa-plus"></i> Add Customer</button>
+      </div>
+      <div id="customers-grid" class="customers-grid">
+        <p class="empty-msg">No customers added yet.</p>
+      </div>
+    </section>
+
+    <!-- ===================== KHATA LEDGER ===================== -->
+    <section id="page-khata" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="khata-cust-search" placeholder="Search customer…" class="search-input" />
+        </div>
+        <button class="btn-primary" id="btn-add-khata"><i class="fas fa-plus"></i> Add Entry</button>
+      </div>
+      <div class="khata-summary-cards" id="khata-summary-cards"></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Date</th><th>Customer</th><th>Type</th><th>Description</th><th>Amount</th><th>Balance</th></tr>
+          </thead>
+          <tbody id="khata-tbody">
+            <tr><td colspan="6" class="empty-msg">No ledger entries yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== DAILY EXPENSES (NEW) ===================== -->
+    <section id="page-expenses" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="date" id="exp-date-filter" class="date-input" />
+          <select id="exp-cat-filter" class="select-input">
+            <option value="">All Categories</option>
+            <option value="rent">Rent</option>
+            <option value="electricity">Electricity</option>
+            <option value="internet">Internet</option>
+            <option value="salary">Salary</option>
+            <option value="purchase">Stock Purchase</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button class="btn-primary" id="btn-add-expense"><i class="fas fa-plus"></i> Log Expense</button>
+      </div>
+
+      <!-- Expense Summary -->
+      <div class="expense-summary-row" id="expense-summary-row">
+        <div class="exp-sum-card">
+          <div class="exp-sum-icon" style="background:var(--red-light);color:var(--red)"><i class="fas fa-rupee-sign"></i></div>
+          <div><div class="exp-sum-val" id="exp-today-total">₹0</div><div class="exp-sum-label">Today</div></div>
+        </div>
+        <div class="exp-sum-card">
+          <div class="exp-sum-icon" style="background:var(--orange-light);color:var(--orange)"><i class="fas fa-calendar-week"></i></div>
+          <div><div class="exp-sum-val" id="exp-week-total">₹0</div><div class="exp-sum-label">This Week</div></div>
+        </div>
+        <div class="exp-sum-card">
+          <div class="exp-sum-icon" style="background:var(--purple-light);color:var(--purple)"><i class="fas fa-calendar-alt"></i></div>
+          <div><div class="exp-sum-val" id="exp-month-total">₹0</div><div class="exp-sum-label">This Month</div></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Paid Via</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="expenses-tbody">
+            <tr><td colspan="6" class="empty-msg">No expenses logged yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== QUICK NOTES (NEW) ===================== -->
+    <section id="page-notes" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="notes-search" placeholder="Search notes…" class="search-input" />
+        </div>
+        <button class="btn-primary" id="btn-add-note"><i class="fas fa-plus"></i> New Note</button>
+      </div>
+
+      <!-- Priority filter -->
+      <div class="notes-filter-row">
+        <button class="filter-tab active" data-priority="all">All</button>
+        <button class="filter-tab" data-priority="urgent">🔴 Urgent</button>
+        <button class="filter-tab" data-priority="normal">🟡 Normal</button>
+        <button class="filter-tab" data-priority="info">🔵 Info</button>
+      </div>
+
+      <div id="notes-grid" class="notes-grid">
+        <p class="empty-msg">No notes yet. Add your first note!</p>
+      </div>
+    </section>
+
+    <!-- ===================== MOBILE RECHARGE ===================== -->
+    <section id="page-recharge" class="page">
+
+      <!-- Branding Banner -->
+      <div class="recharge-banner">
+        <div class="recharge-banner-icon"><i class="fas fa-mobile-alt"></i></div>
+        <div>
+          <div style="font-size:1rem;font-weight:800">Mobile Recharge & DTH</div>
+          <div style="font-size:.75rem;opacity:.85">Airtel · Jio · Vi · BSNL · All DTH Operators</div>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="recharge-summary-grid">
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Today's Recharges</div>
+          <div class="rch-sum-val" id="rch-today-amt">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Today's Commission</div>
+          <div class="rch-sum-val green" id="rch-today-comm">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Month Recharges</div>
+          <div class="rch-sum-val blue" id="rch-month-amt">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Month Commission</div>
+          <div class="rch-sum-val green" id="rch-month-comm">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Total This Month</div>
+          <div class="rch-sum-val purple" id="rch-month-count">0</div>
+        </div>
+      </div>
+
+      <div class="recharge-layout">
+        <!-- Left: Quick Operators + Breakdown -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-bolt"></i> Quick Recharge</h3></div>
+            <div class="operator-quick-grid">
+              <button class="op-quick-btn" data-op="Airtel"><span class="op-emoji">📱</span>Airtel</button>
+              <button class="op-quick-btn" data-op="Jio"><span class="op-emoji">🔵</span>Jio</button>
+              <button class="op-quick-btn" data-op="Vi"><span class="op-emoji">💜</span>Vi</button>
+              <button class="op-quick-btn" data-op="BSNL"><span class="op-emoji">🟢</span>BSNL</button>
+              <button class="op-quick-btn" data-op="Airtel DTH"><span class="op-emoji">📡</span>Airtel DTH</button>
+              <button class="op-quick-btn" data-op="Dish TV"><span class="op-emoji">📡</span>Dish TV</button>
+              <button class="op-quick-btn" data-op="Tata Play"><span class="op-emoji">📡</span>Tata Play</button>
+              <button class="op-quick-btn" data-op="Sun Direct"><span class="op-emoji">📡</span>Sun Direct</button>
+              <button class="op-quick-btn" data-op="Videocon D2H"><span class="op-emoji">📡</span>Videocon</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-chart-bar"></i> This Month by Operator</h3></div>
+            <div id="rch-operator-breakdown" style="min-height:60px">
+              <p class="empty-msg">No recharges this month.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Table -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="page-toolbar" style="margin-bottom:0">
+            <div class="toolbar-left">
+              <input type="text" id="rch-search" placeholder="Search by phone or name…" class="search-input" />
+              <select id="rch-op-filter" class="select-input">
+                <option value="">All Operators</option>
+                <option value="Airtel">Airtel</option>
+                <option value="Jio">Jio</option>
+                <option value="Vi">Vi</option>
+                <option value="BSNL">BSNL</option>
+                <option value="Airtel DTH">Airtel DTH</option>
+                <option value="Dish TV">Dish TV</option>
+                <option value="Tata Play">Tata Play</option>
+                <option value="Sun Direct">Sun Direct</option>
+                <option value="Videocon D2H">Videocon D2H</option>
+              </select>
+              <input type="date" id="rch-date-filter" class="date-input" />
+            </div>
+            <button class="btn-primary" id="btn-new-recharge"><i class="fas fa-plus"></i> New Recharge</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Date</th><th>Customer</th><th>Operator</th><th>Amount</th><th>Commission</th><th>Receipt No.</th><th>Txn ID</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="recharges-tbody">
+                <tr><td colspan="9" class="empty-msg">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== AIRTEL PAYMENT BANK ===================== -->
+    <section id="page-banking" class="page">
+
+      <!-- Branding Banner -->
+      <div class="airtel-banner">
+        <div class="airtel-banner-icon">🏦</div>
+        <div>
+          <div class="airtel-banner-title">Airtel Payment Bank — Retailer Dashboard</div>
+          <div class="airtel-banner-sub">Deposit · Withdrawal · Transfer · Aadhaar Pay · Insurance · EMI Collection</div>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="banking-summary-grid">
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Today's Earnings</div>
+          <div class="rch-sum-val green" id="bnk-today-comm">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Month Earnings</div>
+          <div class="rch-sum-val green" id="bnk-month-comm">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Month Deposits</div>
+          <div class="rch-sum-val blue" id="bnk-month-deposit">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Month Withdrawals</div>
+          <div class="rch-sum-val" style="color:var(--red)" id="bnk-month-withdraw">₹0</div>
+        </div>
+        <div class="rch-sum-card">
+          <div class="rch-sum-label">Total Transactions</div>
+          <div class="rch-sum-val purple" id="bnk-month-count">0</div>
+        </div>
+      </div>
+
+      <div class="banking-layout">
+        <!-- Left: Quick Actions + Breakdown -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-bolt"></i> Quick Entry</h3></div>
+            <div class="banking-quick-grid">
+              <button class="bnk-quick-btn deposit" data-type="cash_deposit"><i class="fas fa-arrow-down" style="color:var(--green)"></i>Cash Deposit</button>
+              <button class="bnk-quick-btn withdraw" data-type="cash_withdrawal"><i class="fas fa-arrow-up" style="color:var(--red)"></i>Withdrawal</button>
+              <button class="bnk-quick-btn transfer" data-type="fund_transfer"><i class="fas fa-exchange-alt" style="color:var(--blue)"></i>Fund Transfer</button>
+              <button class="bnk-quick-btn other" data-type="aadhaar_pay"><i class="fas fa-fingerprint" style="color:var(--orange)"></i>Aadhaar Pay</button>
+              <button class="bnk-quick-btn other" data-type="account_open"><i class="fas fa-user-plus" style="color:var(--purple)"></i>Account Open</button>
+              <button class="bnk-quick-btn other" data-type="insurance"><i class="fas fa-shield-alt" style="color:var(--teal)"></i>Insurance</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-chart-bar"></i> This Month by Service</h3></div>
+            <div id="bnk-type-breakdown" style="min-height:60px">
+              <p class="empty-msg">No transactions this month.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Table -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="page-toolbar" style="margin-bottom:0">
+            <div class="toolbar-left">
+              <input type="text" id="bnk-search" placeholder="Search by name or phone…" class="search-input" />
+              <select id="bnk-type-filter" class="select-input">
+                <option value="">All Types</option>
+                <option value="cash_deposit">Cash Deposit</option>
+                <option value="cash_withdrawal">Withdrawal</option>
+                <option value="fund_transfer">Fund Transfer</option>
+                <option value="account_open">Account Opening</option>
+                <option value="mini_statement">Mini Statement</option>
+                <option value="aadhaar_pay">Aadhaar Pay</option>
+                <option value="insurance">Insurance</option>
+                <option value="emi_collection">EMI Collection</option>
+              </select>
+              <input type="date" id="bnk-date-filter" class="date-input" />
+            </div>
+            <button class="btn-primary" id="btn-new-banking"><i class="fas fa-plus"></i> New Transaction</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Date</th><th>Customer</th><th>Type</th><th>Amount</th><th>Charge</th><th>Commission</th><th>Total Earned</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="banking-tbody">
+                <tr><td colspan="9" class="empty-msg">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SALES HISTORY ===================== -->
+    <section id="page-sales-history" class="page">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <input type="text" id="sale-search" placeholder="Search sales…" class="search-input" />
+          <input type="date" id="sale-date-from" class="date-input" />
+          <input type="date" id="sale-date-to" class="date-input" />
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="sales-tbody">
+            <tr><td colspan="7" class="empty-msg">No sales recorded yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== ANALYTICS ===================== -->
+    <section id="page-analytics" class="page">
+      <div class="analytics-filter-bar">
+        <select id="analytics-period" class="select-input">
+          <option value="7">Last 7 Days</option>
+          <option value="30" selected>Last 30 Days</option>
+          <option value="90">Last 90 Days</option>
+          <option value="365">Last Year</option>
+        </select>
+        <button class="btn-secondary" id="btn-refresh-analytics"><i class="fas fa-sync"></i> Refresh</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card accent-green"><div class="stat-icon"><i class="fas fa-rupee-sign"></i></div><div class="stat-body"><span class="stat-label">Total Revenue</span><span class="stat-value" id="an-total-revenue">₹0</span></div></div>
+        <div class="stat-card accent-blue"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-body"><span class="stat-label">Total Orders</span><span class="stat-value" id="an-total-orders">0</span></div></div>
+        <div class="stat-card accent-purple"><div class="stat-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="stat-body"><span class="stat-label">Avg Order Value</span><span class="stat-value" id="an-avg-order">₹0</span></div></div>
+        <div class="stat-card accent-teal"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-body"><span class="stat-label">Total Purchases</span><span class="stat-value" id="an-total-purchases">₹0</span></div></div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="card chart-card"><div class="card-header"><h3><i class="fas fa-chart-area"></i> Revenue Trend</h3></div><div style="height:280px;"><canvas id="revenueTrendChart"></canvas></div></div>
+        <div class="card chart-card"><div class="card-header"><h3><i class="fas fa-chart-pie"></i> Profit by Category</h3></div><div style="height:280px;"><canvas id="profitCategoryChart"></canvas></div></div>
+        <div class="card chart-card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Top 10 Products</h3></div><div style="height:280px;"><canvas id="topProductsChart"></canvas></div></div>
+        <div class="card chart-card"><div class="card-header"><h3><i class="fas fa-credit-card"></i> Payment Methods</h3></div><div style="height:280px;"><canvas id="paymentChart"></canvas></div></div>
+      </div>
+    </section>
+
+  </div><!-- /pages -->
+</main>
+
+<!-- ===== MODALS ===== -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div id="modal-box" class="modal-box">
+    <div class="modal-header">
+      <h2 id="modal-title">Modal</h2>
+      <button id="modal-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="modal-body" class="modal-body"></div>
+  </div>
+</div>
+
+<!-- Receipt Modal -->
+<div id="receipt-modal" class="modal-overlay hidden">
+  <div class="modal-box receipt-modal-box">
+    <div class="modal-header">
+      <h2><i class="fas fa-receipt"></i> Invoice – Noori Shop</h2>
+      <button onclick="closeReceipt()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="receipt-content" class="receipt-content"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+      <button class="btn-primary" onclick="closeReceipt()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar overlay for mobile -->
+<div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+<script src="js/utils.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/pos.js"></script>
+<script src="js/purchases.js"></script>
+<script src="js/suppliers.js"></script>
+<script src="js/customers.js"></script>
+<script src="js/khata.js"></script>
+<script src="js/perfume.js"></script>
+<script src="js/recharge.js"></script>
+<script src="js/banking.js"></script>
+<script src="js/expenses.js"></script>
+<script src="js/notes.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
